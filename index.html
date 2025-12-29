@@ -426,6 +426,17 @@
       color:rgba(255,255,255,.70);
       font-size:13px;
     }
+    /* Reviews */
+.reviews-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:14px;
+}
+.review-card{padding:16px;}
+.stars{color:#f7d27b;font-size:20px;}
+.review-text{color:white;}
+.review-name{font-size:13px;opacity:.7}
+
   </style>
 </head>
 
@@ -507,6 +518,48 @@
         </div>
       </div>
     </header>
+<!-- REVIEWS SECTION -->
+<section id="reviews" class="reveal">
+  <h2 class="section-title">Client Reviews</h2>
+  <p class="section-sub">
+    Read client feedback and leave your own review.
+  </p>
+
+  <div class="glass" style="padding:16px;">
+    <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+      <button class="btn primary" type="button" onclick="showTab('viewReviews')">⭐ View Reviews</button>
+      <button class="btn" type="button" onclick="showTab('addReview')">✍️ Leave a Review</button>
+    </div>
+
+    <div id="viewReviews">
+      <div class="reviews-grid">
+        <div class="review-card glass">
+          <div class="stars">★★★★★</div>
+          <p class="review-text">Very relaxing and professional experience.</p>
+          <div class="review-name">— Alex M.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="addReview" style="display:none;">
+      <label>Your Name</label>
+      <input id="revName" type="text">
+
+      <label>Your Rating</label>
+      <select id="revRating">
+        <option>★★★★★ (5 Stars)</option>
+        <option>★★★★☆ (4 Stars)</option>
+      </select>
+
+      <label>Your Review</label>
+      <textarea id="revText"></textarea>
+
+      <button type="button" class="btn primary" id="sendReviewEmail">
+        Submit Review
+      </button>
+    </div>
+  </div>
+</section>
 
     <!-- PRICING -->
     <section id="pricing" class="reveal">
@@ -717,6 +770,26 @@
       const op = 0.18 + Math.random() * 0.18;
       f.style.opacity = op.toFixed(2);
     });
+    function showTab(tabId){
+  document.getElementById("viewReviews").style.display="none";
+  document.getElementById("addReview").style.display="none";
+  document.getElementById(tabId).style.display="block";
+}
+
+document.getElementById("sendReviewEmail").addEventListener("click",()=>{
+  const name=document.getElementById("revName").value;
+  const rating=document.getElementById("revRating").value;
+  const review=document.getElementById("revText").value;
+
+  const to="engr.mujtabaghous@gmail.com";
+  const subject=encodeURIComponent("New Review – Candy Massage");
+  const body=encodeURIComponent(
+    `Name: ${name}\nRating: ${rating}\n\nReview:\n${review}`
+  );
+
+  window.location.href=`mailto:${to}?subject=${subject}&body=${body}`;
+});
+
   </script>
 </body>
 </html>
